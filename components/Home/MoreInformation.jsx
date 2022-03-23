@@ -3,11 +3,13 @@ import { CardInfo } from './CardInfo'
 export const MoreInformation = () => {
   return (
     <section className="mt-24">
-      <h2 className="text-center text-5xl font-black">
-        Learn English with
-        <br /> practice and motivation
-        <br /> during 100 days
-      </h2>
+      <blockquote className="text-4xl font-bold italic text-center text-slate-900">
+        Learn{' '}
+        <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-sky-400 relative inline-block">
+          <span className="relative text-white">English</span>
+        </span>{' '}
+        with <br /> practice and motivation <br /> during 100 days
+      </blockquote>
       <div className="mt-24 flex flex-wrap gap-6 justify-center">
         <CardInfo title="Which is the purpose of this project?">
           That you practice your writing and improve your vocabulary at the same time
