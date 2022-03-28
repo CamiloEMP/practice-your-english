@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      body: ['Rubik', 'sans-serif'],
+      body: ['Lexend', 'sans-serif'],
     },
   },
   plugins: [],

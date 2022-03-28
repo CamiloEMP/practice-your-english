@@ -23,6 +23,8 @@
     }
   },
   "rules": {
+    "no-unused-vars": "error",
+    "no-unused-expressions": "warn",
     "no-console": "warn",
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
