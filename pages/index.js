@@ -1,6 +1,14 @@
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { useRouter } from 'next/router'
+
 import { CardInfo } from '../components/Home/CardInfo'
 
 export default function Home() {
+  const { user } = useUser()
+  const router = useRouter()
+
+  if (user) router.push('/dashboard') // Provitional
+
   return (
     <section>
       <blockquote className="text-4xl font-bold italic text-center text-slate-900">
