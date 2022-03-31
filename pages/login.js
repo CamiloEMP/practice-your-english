@@ -10,7 +10,7 @@ export default function Login() {
         {error && <p>{error.message}</p>}
         <Auth
           className=" max-w-xs mx-auto"
-          providers={['google', 'github']}
+          providers={['google', 'github', 'discord']}
           redirectTo="/dashboard"
           socialButtonSize="xlarge"
           socialColors={true}

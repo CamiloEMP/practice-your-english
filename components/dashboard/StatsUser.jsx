@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { MdOutlineSentimentSatisfied } from 'react-icons/md'
 export const StatsUser = () => {
   return (
     <div className="w-full">
@@ -11,6 +13,17 @@ export const StatsUser = () => {
         >
           <span>0%</span>
         </div>
+      </div>
+      <div className="mt-12">
+        <span>If you are prepared you can start to practice the sentences.</span>
+        <Link href="/dashboard">
+          <a className=" w-fit text-lg flex items-center text-emerald-600 hover:text-emerald-400">
+            Right Now
+            <span>
+              <MdOutlineSentimentSatisfied style={{ fontSize: '24px', marginLeft: '5px' }} />
+            </span>
+          </a>
+        </Link>
       </div>
     </div>
   )

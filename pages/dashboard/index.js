@@ -5,27 +5,31 @@ import { Profile } from '../../components/dashboard/Profile'
 import { StatsUser } from '../../components/dashboard/StatsUser'
 
 export default function Dashboard({ user }) {
+  console.log(user)
   const img = user.user_metadata.avatar_url
-  const name = user.user_metadata.user_name
+  const name = user.user_metadata.name
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col">
       <section className="flex gap-12">
         <Profile img={img} name={name} />
         <StatsUser />
       </section>
-      <h4 className="text-2xl text-center mb-4">Mini Games</h4>
-      <section className="flex justify-center gap-12">
-        <MiniGame
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus libero incidunt est veritatis! Ipsa, expedita. Illum"
-          img="https://i.imgur.com/uiXGkeV.png"
-          title="Concentration"
-        />
-        <MiniGame
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus libero incidunt est veritatis! Ipsa, expedita. Illum"
-          img="https://i.imgur.com/uiXGkeV.png"
-          title="Concentration"
-        />
+      <section className="flex flex-wrap justify-around mt-24">
+        <div>
+          <h4 className="text-xl text-center mb-4">Mini Games</h4>
+          <div className="flex gap-12">
+            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Concentration" />
+            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Find the verb" />
+          </div>
+        </div>
+        <div>
+          <h4 className="text-xl text-center mb-4">Resources</h4>
+          <div className="flex gap-12">
+            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Regular Verbs List" />
+            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Irregular Verbs List" />
+          </div>
+        </div>
       </section>
     </section>
   )
