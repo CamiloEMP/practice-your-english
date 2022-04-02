@@ -1,18 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
-import { getListOfVerbs } from '../../services/getListOfVerbs'
+import { Spinner } from '../Spinner'
+import { useIrregularVerbs } from '../../hook/useIrregularVerbs'
 
 export const ListOfVerbs = () => {
-  const router = useRouter()
-  const [verbs, setVerbs] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { verbs, loading } = useIrregularVerbs()
   const [inputSearh, setInputSearh] = useState('')
-
-  useEffect(() => {
-    getListOfVerbs(setLoading).then(data => setVerbs(data))
-  }, [])
 
   return (
     <>
@@ -23,7 +17,7 @@ export const ListOfVerbs = () => {
         onChange={e => setInputSearh(e.target.value)}
       />
       {loading ? (
-        <span>loading...</span>
+        <Spinner />
       ) : (
         <div className="flex flex-col gap-6">
           {verbs
@@ -35,7 +29,13 @@ export const ListOfVerbs = () => {
               }
             })
             .map((verb, index) => (
-              <Link key={index} href={`${router.pathname}/${index}`}>
+              <Link
+                key={index}
+                href={{
+                  pathname: `/dashboard/practice/sentences/${index}`,
+                  query: { verb: JSON.stringify(verb) },
+                }}
+              >
                 <a className="pl-2 py-2 border-b-4 border-emerald-600 text-lg hover:bg-emerald-400 dark:hover:bg-emerald-800 transition-colors">
                   {verb.infinitive}
                 </a>

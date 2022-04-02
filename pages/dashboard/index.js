@@ -1,4 +1,5 @@
 import { withAuthRequired } from '@supabase/supabase-auth-helpers/nextjs'
+import Link from 'next/link'
 
 import { MiniGame } from '../../components/dashboard/MiniGame'
 import { Profile } from '../../components/dashboard/Profile'
@@ -26,8 +27,9 @@ export default function Dashboard({ user }) {
         <div>
           <h4 className="text-xl text-center mb-4">Resources</h4>
           <div className="flex gap-12">
-            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Regular Verbs List" />
-            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Irregular Verbs List" />
+            <Link href="/dashboard/list/verbs/irregular">
+              <a className="text-lg underline">Irregular Verbs List</a>
+            </Link>
           </div>
         </div>
       </section>

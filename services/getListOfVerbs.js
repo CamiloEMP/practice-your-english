@@ -3,7 +3,7 @@ import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 export const getListOfVerbs = async setLoading => {
   try {
     setLoading(true)
-    const { data, error, status } = await supabaseClient.from('list_verbs').select('infinitive')
+    const { data, error, status } = await supabaseClient.from('list_verbs').select('*')
 
     if (error && status !== 406) {
       throw error

@@ -1,14 +1,18 @@
-import { ListOfVerbs } from '../../../../components/dashboard/ListOfVerbs'
+import Head from 'next/head'
 
-export default function Sentences() {
+import { SentencesLayout } from '../../../../layout/SentecesLayout'
+
+function Sentences() {
   return (
-    <section className="flex">
-      <div className="w-96">
-        <ListOfVerbs />
-      </div>
-      <div className="w-full flex justify-center static">
-        <span>Select a verb to start</span>
-      </div>
-    </section>
+    <>
+      <Head>
+        <title>Practice | Sentences</title>
+      </Head>
+      <span>Select a verb to start</span>
+    </>
   )
 }
+
+Sentences.PageLayout = SentencesLayout
+
+export default Sentences

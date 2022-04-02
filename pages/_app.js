@@ -13,7 +13,13 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider attribute="class" enableSystem={true}>
         <Layout>
           <Header />
-          <Component {...pageProps} />
+          {Component.PageLayout ? (
+            <Component.PageLayout>
+              <Component {...pageProps} />
+            </Component.PageLayout>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </Layout>
       </ThemeProvider>
     </UserProvider>
