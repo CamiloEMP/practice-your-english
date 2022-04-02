@@ -11,9 +11,9 @@ export default function Home() {
 
   return (
     <section>
-      <blockquote className="text-4xl font-bold italic text-center text-slate-900">
+      <blockquote className="text-4xl font-bold italic text-center">
         Learn{' '}
-        <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-emerald-400 relative inline-block">
+        <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-emerald-500 relative inline-block">
           <span className="relative text-white">English</span>
         </span>{' '}
         with <br /> practice and motivation <br /> during 100 days

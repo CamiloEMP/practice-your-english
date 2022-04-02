@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes'
 import { UserProvider } from '@supabase/supabase-auth-helpers/react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 
@@ -9,10 +10,12 @@ import '../styles/globals.css'
 function MyApp({ Component, pageProps }) {
   return (
     <UserProvider supabaseClient={supabaseClient}>
-      <Layout>
-        <Header />
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider attribute="class" enableSystem={true}>
+        <Layout>
+          <Header />
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     </UserProvider>
   )
 }

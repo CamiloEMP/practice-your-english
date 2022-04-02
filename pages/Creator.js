@@ -4,10 +4,10 @@ function Creator() {
   return (
     <section className="max-w-xl mx-auto">
       <div className="mb-20">
-        <blockquote className="text-4xl font-bold italic text-center text-slate-900">
+        <blockquote className="text-4xl font-bold italic text-center">
           Hello my name is
           <br />
-          <span className="mt-4 before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-emerald-400 relative inline-block">
+          <span className="mt-4 before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-emerald-500 relative inline-block">
             <span className="relative text-white">Camilo Mora</span>
           </span>
         </blockquote>
