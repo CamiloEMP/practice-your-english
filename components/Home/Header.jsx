@@ -33,7 +33,7 @@ export const Header = () => {
   }
 
   return (
-    <header className="text-slate-100 w-full h-24 relative flex justify-between items-center bg-emerald-500 px-8 mt-4 mb-24 rounded-md">
+    <header className="text-slate-100 w-full h-24 relative flex justify-between items-center bg-emerald-600 px-8 mt-4 mb-24 rounded-md">
       <h1 className="text-3xl font-black">Practice your English</h1>
       <nav>
         <ul className="flex items-center gap-8 text-xl font-bold">
