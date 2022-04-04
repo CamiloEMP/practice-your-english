@@ -1,23 +1,17 @@
-import Image from 'next/image'
 import Link from 'next/link'
-// https://i.imgur.com/uiXGkeV.png
-export const MiniGame = ({ title, img }) => {
+
+export const MiniGame = ({ title, url, children }) => {
   return (
-    <Link href="/">
-      <a className="flex flex-col w-64 transition-transform hover:scale-105">
-        <Image
-          alt="img"
-          className=" rounded-t-lg"
-          height={180}
-          layout="responsive"
-          objectFit="cover"
-          src={img}
-          width={220}
-        />{' '}
-        <h5 className="bg-emerald-600 rounded-b-lg text-teal-50 text-xl text-center my-2 py-1">
-          {title}
-        </h5>
-      </a>
-    </Link>
+    <section className="flex flex-col gap-4 w-64">
+      <h5 className="bg-emerald-600 rounded-sm text-teal-50 text-xl text-center my-2 py-3">
+        {title}
+      </h5>
+      <p className="text-justify">{children}</p>
+      <Link href={url}>
+        <a className="bg-emerald-600 py-2 text-teal-50 text-center rounded-sm transition-transform hover:scale-105">
+          ¡Play NOW!
+        </a>
+      </Link>
+    </section>
   )
 }

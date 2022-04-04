@@ -1,4 +1,5 @@
 import { Spinner } from '../../../../components/Spinner'
+import { timesVerbs } from '../../../../constants/timesVerbs'
 import { useIrregularVerbs } from '../../../../hook/useIrregularVerbs'
 
 export default function Irregular() {
@@ -13,10 +14,9 @@ export default function Irregular() {
       ) : (
         <section className="w-10/12 mx-auto">
           <div className="grid grid-cols-4 text-lg font-semibold">
-            <span>Infinitive</span>
-            <span>Past Simple</span>
-            <span>Past Participe</span>
-            <span>Spanish</span>
+            {timesVerbs.map(time => (
+              <span key={time.id}>{time.description}</span>
+            ))}
           </div>
           {verbs.map(verb => (
             <div

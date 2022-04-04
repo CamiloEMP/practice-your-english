@@ -6,7 +6,6 @@ import { Profile } from '../../components/dashboard/Profile'
 import { StatsUser } from '../../components/dashboard/StatsUser'
 
 export default function Dashboard({ user }) {
-  console.log(user)
   const img = user.user_metadata.avatar_url
   const name = user.user_metadata.name
 
@@ -18,14 +17,19 @@ export default function Dashboard({ user }) {
       </section>
       <section className="flex flex-wrap justify-around mt-24">
         <div>
-          <h4 className="text-xl text-center mb-4">Mini Games</h4>
+          <h4 className="text-xl text-center mb-4 font-semibold">Mini Games</h4>
           <div className="flex gap-12">
-            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Concentration" />
-            <MiniGame img="https://i.imgur.com/uiXGkeV.png" title="Find the verb" />
+            <MiniGame title="Memory game" url="/dashboard/minigames/memory">
+              This game tries to find the pairs of the verb you chose, where you can select the
+              number of verbs, which ones you want and with what tenses you want to play.
+            </MiniGame>
+            <MiniGame title="Remember well" url="/dashboard">
+              This game tries to remember the verbs in the all times.
+            </MiniGame>
           </div>
         </div>
         <div>
-          <h4 className="text-xl text-center mb-4">Resources</h4>
+          <h4 className="text-xl text-center mb-4 font-semibold">Resources</h4>
           <div className="flex gap-12">
             <Link href="/dashboard/list/verbs/irregular">
               <a className="text-lg underline">Irregular Verbs List</a>
