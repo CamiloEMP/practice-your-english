@@ -25,7 +25,7 @@ export default function Irregular() {
             >
               <span>{verb.infinitive}</span>
               <span>{verb.past_simple}</span>
-              <span>{verb.past_participe}</span>
+              <span>{verb.past_participle}</span>
               <span>{verb.translation}</span>
             </div>
           ))}

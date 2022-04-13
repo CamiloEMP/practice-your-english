@@ -1,5 +1,5 @@
 export const InputCheckbox = ({ identifier, text, checked, handleChecked }) => {
-  const boolean = checked[identifier]
+  const boolean = checked[identifier] | false
 
   return (
     <>
@@ -7,13 +7,12 @@ export const InputCheckbox = ({ identifier, text, checked, handleChecked }) => {
         {text}
       </label>
       <input
-        required
         checked={boolean}
         className="h-5 w-5 ml-2"
         id={identifier}
         name={identifier}
         type="checkbox"
-        onClick={handleChecked}
+        onChange={handleChecked}
       />
     </>
   )

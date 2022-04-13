@@ -28,11 +28,11 @@ export const ListOfVerbs = () => {
                 return verb
               }
             })
-            .map((verb, index) => (
+            .map(verb => (
               <Link
-                key={index}
+                key={verb.id}
                 href={{
-                  pathname: `/dashboard/practice/sentences/${index}`,
+                  pathname: `/dashboard/practice/sentences/${verb.id}`,
                   query: { verb: JSON.stringify(verb) },
                 }}
               >

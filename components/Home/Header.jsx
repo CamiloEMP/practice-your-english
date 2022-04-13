@@ -1,9 +1,9 @@
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import { useState, useEffect } from 'react'
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import { RiSunLine, RiMoonLine } from 'react-icons/ri'
 
 export const Header = () => {

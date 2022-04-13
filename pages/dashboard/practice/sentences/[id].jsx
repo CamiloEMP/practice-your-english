@@ -1,69 +1,77 @@
 import { useRouter } from 'next/router'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 
 import { SentencesLayout } from '../../../../layout/SentecesLayout'
+import { TextArea } from '../../../../components/TextArea'
+import validationAndSubmit from '../../../../utils/validationIrregularVerbs'
+import { addSentece } from '../../../../services/addSenteces'
 
 function SentencesId() {
+  const { user } = useUser()
   const formRef = useRef()
   const {
     query: { id, verb },
   } = useRouter()
   const parseVerb = JSON.parse(verb)
+  const [error, setError] = useState('')
+  const [correctSentence, setCorrectSentence] = useState(false)
+
+  const verbInfinitive = parseVerb.infinitive
+  const verbPastParticiple = parseVerb.past_participle
+  const verbPastSimple = parseVerb.past_simple
 
   function handleSubmit(e) {
     e.preventDefault()
     const formData = new FormData(formRef.current)
-    const values = Object.fromEntries(formData)
+    const sentences = Object.fromEntries(formData)
 
-    formRef.current.reset()
+    const isValid = validationAndSubmit({
+      sentences,
+      verbInfinitive,
+      verbPastParticiple,
+      verbPastSimple,
+      setError,
+      formRef,
+    })
+
+    if (isValid) {
+      addSentece(sentences, id, user.id).then(data => (data ? setCorrectSentence(true) : null))
+    }
   }
 
   return (
     <div>
+      {correctSentence && <p>Bien hecho </p>}
       <div className="mb-12">
         {Object.values(parseVerb)
           .slice(0, 4)
           .map((item, index) => (
-            <span key={index} className="text-lg text-emerald-600 dark:text-emerald-400">
+            <span key={index} className="text-xl text-emerald-600 dark:text-emerald-400">
               {item} {index < 3 ? '-' : ''}{' '}
             </span>
           ))}
       </div>
-      <form ref={formRef} onSubmit={handleSubmit}>
-        <div className="mb-8">
-          <label className="mb-2" htmlFor="infinitive">
-            Sentence with the verb in Infinitive
-          </label>
-          <textarea
-            autoFocus={true}
-            className="mt-2 w-full py-2 px-4 border-2 rounded-sm border-transparent resize-y max-h-52 min-h-[120px] focus:outline-none focus:border-emerald-600"
-            id="infinitive"
-            name="infinitive"
-          />
-        </div>
-        <div className="mb-8">
-          <label className="mb-2" htmlFor="pSimple">
-            Sentence with the verb in Past simple
-          </label>
-          <textarea
-            className="mt-2 w-full py-2 px-4 border-2 rounded-sm border-transparent resize-y max-h-52 min-h-[120px] focus:outline-none focus:border-emerald-600"
-            id="pSimple"
-            name="pSimple"
-          />
-        </div>
-        <div className="mb-8">
-          <label className="mb-2" htmlFor="pParticipe">
-            Sentence with the verb in Past participe
-          </label>
-          <textarea
-            className="mt-2 w-full py-2 px-4 border-2 rounded-sm border-transparent resize-y max-h-52 min-h-[120px] focus:outline-none focus:border-emerald-600"
-            id="pParticipe"
-            name="pParticipe"
-          />
-        </div>
-        <div className="flex justify-end">
+      <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
+        <TextArea
+          identifier="infinitive"
+          setError={setError}
+          title="Sentence with the verb in Infinitive"
+        />
+        <TextArea
+          identifier="pastSimple"
+          setError={setError}
+          title="Sentence with the verb in Past"
+        />
+        <TextArea
+          identifier="pastParticiple"
+          setError={setError}
+          title="Sentence with the verb in Past Participle"
+        />
+        {error && <p className="text-lg text-red-600 text-center">{error}</p>}
+        <div className="flex">
           <button
-            className="text-lg rounded-sm border-2 border-emerald-600 px-12 py-2 transition-colors hover:bg-emerald-600 hover:text-slate-100"
+            className="text-xl w-full rounded-sm border-2 border-emerald-600 py-4 transition-colors hover:bg-emerald-600 hover:text-slate-100"
             type="submit"
           >
             Save
@@ -73,6 +81,5 @@ function SentencesId() {
     </div>
   )
 }
-
 SentencesId.PageLayout = SentencesLayout
 export default SentencesId
