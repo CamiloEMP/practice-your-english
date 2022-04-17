@@ -1,6 +1,6 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 
-export const getListOfVerbs = async setLoading => {
+export const getIrregularVerbs = async () => {
   try {
     const { data, error, status } = await supabaseClient.from('list_verbs').select('*')
 
@@ -11,7 +11,5 @@ export const getListOfVerbs = async setLoading => {
     else return { error }
   } catch (error) {
     throw error
-  } finally {
-    setLoading(false)
   }
 }

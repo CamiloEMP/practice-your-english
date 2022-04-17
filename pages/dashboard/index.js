@@ -1,10 +1,21 @@
-import { withAuthRequired } from '@supabase/supabase-auth-helpers/nextjs'
 import Link from 'next/link'
 import { MiniGame } from 'components/dashboard/MiniGame'
 import { Profile } from 'components/dashboard/Profile'
 import { StatsUser } from 'components/dashboard/StatsUser'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { Spinner } from 'components/Spinner'
 
-export default function Dashboard({ user }) {
+export default function Dashboard() {
+  const state = useUser()
+  const { user } = state
+
+  if (state.isLoading)
+    return (
+      <div className="flex justify-center">
+        <Spinner />
+      </div>
+    )
+
   const img = user.user_metadata.avatar_url
   const name = user.user_metadata.name
 
@@ -39,5 +50,3 @@ export default function Dashboard({ user }) {
     </section>
   )
 }
-
-export const getServerSideProps = withAuthRequired({ redirectTo: '/login' })

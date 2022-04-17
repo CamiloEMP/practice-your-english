@@ -1,40 +1,42 @@
-import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
-import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { timesVerbs } from 'constants/timesVerbs'
+
+import { useState } from 'react'
 import { SentencesLayout } from 'layout/SentecesLayout'
 import { TextArea } from 'components/TextArea'
-import validationAndSubmit from 'utils/validationIrregularVerbs'
+import { useForm } from 'hook/useForm'
+import { validateNewSentence } from 'validations/validateNewSentence'
+import { getIrregularVerbs } from 'services/getIrregularVerbs'
 import { addSentece } from 'services/addSenteces'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 
-function SentencesId({ setShow }) {
+function SentencesId({ verb, setShow }) {
   const { user } = useUser()
-  const formRef = useRef()
-  const {
-    query: { id, verb },
-  } = useRouter()
-  const parseVerb = JSON.parse(verb)
+  const { values, handleChange, setValues } = useForm({
+    infinitive: '',
+    pastSimple: '',
+    pastParticiple: '',
+  })
   const [error, setError] = useState('')
 
-  const verbInfinitive = parseVerb.infinitive
-  const verbPastParticiple = parseVerb.past_participle
-  const verbPastSimple = parseVerb.past_simple
+  const wordInfinitive = verb.infinitive
+  const wordPastParticiple = verb.past_participle
+  const wordPastSimple = verb.past_simple
 
   function handleSubmit(e) {
     e.preventDefault()
-    const formData = new FormData(formRef.current)
-    const sentences = Object.fromEntries(formData)
 
-    const isValid = validationAndSubmit({
-      sentences,
-      verbInfinitive,
-      verbPastParticiple,
-      verbPastSimple,
+    const isValid = validateNewSentence({
+      values,
+      wordInfinitive,
+      wordPastParticiple,
+      wordPastSimple,
       setError,
-      formRef,
     })
 
     if (isValid) {
-      addSentece(sentences, id, user.id).then(data => (data ? setShow(true) : null))
+      addSentece(values, verb.id, user.id).then(data => (data ? setShow(true) : null))
+      setValues({ infinitive: '', pastSimple: '', pastParticiple: '' })
     }
   }
 
@@ -42,7 +44,7 @@ function SentencesId({ setShow }) {
     <div className="sticky top-10">
       <button onClick={() => setShow(true)}>Modal</button>
       <div className="mb-12">
-        {Object.values(parseVerb)
+        {Object.values(verb)
           .slice(0, 4)
           .map((item, index) => (
             <span key={index} className="text-xl text-emerald-600 dark:text-emerald-400">
@@ -50,22 +52,17 @@ function SentencesId({ setShow }) {
             </span>
           ))}
       </div>
-      <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
-        <TextArea
-          identifier="infinitive"
-          setError={setError}
-          title="Sentence with the verb in Infinitive"
-        />
-        <TextArea
-          identifier="pastSimple"
-          setError={setError}
-          title="Sentence with the verb in Past"
-        />
-        <TextArea
-          identifier="pastParticiple"
-          setError={setError}
-          title="Sentence with the verb in Past Participle"
-        />
+      <form className="space-y-8" onSubmit={handleSubmit}>
+        {timesVerbs.slice(0, 3).map(item => (
+          <TextArea
+            key={item.id}
+            handleChange={handleChange}
+            identifier={item.value}
+            setError={setError}
+            title={item.description}
+            value={values[item.value]}
+          />
+        ))}
         {error && <p className="text-lg text-red-600 text-center">{error}</p>}
         <div className="flex">
           <button
@@ -79,5 +76,26 @@ function SentencesId({ setShow }) {
     </div>
   )
 }
+
+export const getStaticPaths = async () => {
+  const verbs = await getIrregularVerbs()
+
+  return {
+    paths: verbs.map(verb => ({ params: { id: JSON.stringify(verb.id) } })),
+    fallback: true,
+  }
+}
+
+export const getStaticProps = async ({ params }) => {
+  const { id } = params
+  const { data } = await supabaseClient.from('list_verbs').select().filter('id', 'eq', id).single()
+
+  return {
+    props: {
+      verb: data,
+    },
+  }
+}
+
 SentencesId.PageLayout = SentencesLayout
 export default SentencesId

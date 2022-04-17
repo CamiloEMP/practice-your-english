@@ -20,7 +20,7 @@ export const InputSelect = ({ identifier, isSelect, setIsSelect }) => {
           }
           value={time.value}
         >
-          {time.description}
+          {time.title}
         </option>
       ))}
     </select>

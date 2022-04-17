@@ -1,12 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useIrregularVerbs } from 'hook/useIrregularVerbs'
+import { getIrregularVerbs } from 'services/getIrregularVerbs'
+import { Spinner } from 'components/Spinner'
 
-import { Spinner } from '../Spinner'
-
-export const ListOfVerbs = () => {
-  const { verbs, loading } = useIrregularVerbs()
+export const ListVerbsLayout = () => {
+  const [verbs, setVerbs] = useState([])
+  const [loading, setLoading] = useState(true)
   const [inputSearh, setInputSearh] = useState('')
+
+  useEffect(() => {
+    try {
+      getIrregularVerbs(setLoading).then(data => setVerbs(data))
+    } catch (error) {
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   return (
     <>
@@ -29,13 +39,7 @@ export const ListOfVerbs = () => {
               }
             })
             .map(verb => (
-              <Link
-                key={verb.id}
-                href={{
-                  pathname: `/dashboard/practice/sentences/${verb.id}`,
-                  query: { verb: JSON.stringify(verb) },
-                }}
-              >
+              <Link key={verb.id} href={`/dashboard/practice/sentences/${verb.id}`}>
                 <a className="pl-2 py-2 border-b-4 border-emerald-600 text-lg hover:bg-emerald-400 dark:hover:bg-emerald-800 transition-colors">
                   {verb.infinitive}
                 </a>

@@ -1,6 +1,5 @@
 import Head from 'next/head'
-
-import { SentencesLayout } from '../../../../layout/SentecesLayout'
+import { SentencesLayout } from 'layout/SentecesLayout'
 
 function Sentences() {
   return (
