@@ -1,4 +1,4 @@
-import { timesVerbs } from '../constants/timesVerbs'
+import { timesVerbs } from 'constants/timesVerbs'
 
 export const InputSelect = ({ identifier, isSelect, setIsSelect }) => {
   return (

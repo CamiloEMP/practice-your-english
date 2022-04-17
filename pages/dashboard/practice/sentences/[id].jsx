@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import { SentencesLayout } from 'layout/SentecesLayout'
+import { TextArea } from 'components/TextArea'
+import validationAndSubmit from 'utils/validationIrregularVerbs'
+import { addSentece } from 'services/addSenteces'
 
-import { SentencesLayout } from '../../../../layout/SentecesLayout'
-import { TextArea } from '../../../../components/TextArea'
-import validationAndSubmit from '../../../../utils/validationIrregularVerbs'
-import { addSentece } from '../../../../services/addSenteces'
-
-function SentencesId() {
+function SentencesId({ setShow }) {
   const { user } = useUser()
   const formRef = useRef()
   const {
@@ -15,7 +14,6 @@ function SentencesId() {
   } = useRouter()
   const parseVerb = JSON.parse(verb)
   const [error, setError] = useState('')
-  const [correctSentence, setCorrectSentence] = useState(false)
 
   const verbInfinitive = parseVerb.infinitive
   const verbPastParticiple = parseVerb.past_participle
@@ -36,13 +34,13 @@ function SentencesId() {
     })
 
     if (isValid) {
-      addSentece(sentences, id, user.id).then(data => (data ? setCorrectSentence(true) : null))
+      addSentece(sentences, id, user.id).then(data => (data ? setShow(true) : null))
     }
   }
 
   return (
-    <div>
-      {correctSentence && <p>Bien hecho </p>}
+    <div className="sticky top-10">
+      <button onClick={() => setShow(true)}>Modal</button>
       <div className="mb-12">
         {Object.values(parseVerb)
           .slice(0, 4)

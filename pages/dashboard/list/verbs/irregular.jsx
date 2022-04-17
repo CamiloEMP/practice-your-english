@@ -1,6 +1,7 @@
-import { Spinner } from '../../../../components/Spinner'
-import { timesVerbs } from '../../../../constants/timesVerbs'
-import { useIrregularVerbs } from '../../../../hook/useIrregularVerbs'
+import { timesVerbs } from 'constants/timesVerbs'
+
+import { Spinner } from 'components/Spinner'
+import { useIrregularVerbs } from 'hook/useIrregularVerbs'
 
 export default function Irregular() {
   const { verbs, loading } = useIrregularVerbs()

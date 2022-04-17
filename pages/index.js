@@ -1,7 +1,6 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import { useRouter } from 'next/router'
-
-import { CardInfo } from '../components/Home/CardInfo'
+import { CardInfo } from 'components/Home/CardInfo'
 
 export default function Home() {
   const { user } = useUser()

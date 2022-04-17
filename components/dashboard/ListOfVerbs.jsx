@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { useIrregularVerbs } from 'hook/useIrregularVerbs'
 
 import { Spinner } from '../Spinner'
-import { useIrregularVerbs } from '../../hook/useIrregularVerbs'
 
 export const ListOfVerbs = () => {
   const { verbs, loading } = useIrregularVerbs()

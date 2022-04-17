@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
-
-import { InputCheckbox } from '../../../../components/InputCheckbox'
-import { InputSelect } from '../../../../components/InputSelect'
+import { InputCheckbox } from 'components/InputCheckbox'
+import { InputSelect } from 'components/InputSelect'
 
 export default function Memory() {
   const formRef = useRef()

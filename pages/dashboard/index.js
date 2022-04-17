@@ -1,9 +1,8 @@
 import { withAuthRequired } from '@supabase/supabase-auth-helpers/nextjs'
 import Link from 'next/link'
-
-import { MiniGame } from '../../components/dashboard/MiniGame'
-import { Profile } from '../../components/dashboard/Profile'
-import { StatsUser } from '../../components/dashboard/StatsUser'
+import { MiniGame } from 'components/dashboard/MiniGame'
+import { Profile } from 'components/dashboard/Profile'
+import { StatsUser } from 'components/dashboard/StatsUser'
 
 export default function Dashboard({ user }) {
   const img = user.user_metadata.avatar_url
