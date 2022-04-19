@@ -16,6 +16,8 @@ export const ListVerbsLayout = () => {
     } finally {
       setLoading(false)
     }
+
+    return () => {}
   }, [])
 
   return (

@@ -6,7 +6,7 @@ export function SentencesLayout({ children }) {
       <div className="w-96">
         <ListVerbsLayout />
       </div>
-      <section className="w-full flex flex-col static">{children}</section>
+      <section className="w-full">{children}</section>
     </section>
   )
 }

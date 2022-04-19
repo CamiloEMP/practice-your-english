@@ -23,7 +23,7 @@
     }
   },
   "rules": {
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "no-unused-expressions": "warn",
     "no-console": "warn",
     "react/prop-types": "off",
