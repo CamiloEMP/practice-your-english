@@ -9,13 +9,8 @@ export const ListVerbsLayout = () => {
   const [inputSearh, setInputSearh] = useState('')
 
   useEffect(() => {
-    try {
-      getIrregularVerbs(setLoading).then(data => setVerbs(data))
-    } catch (error) {
-      throw error
-    } finally {
-      setLoading(false)
-    }
+    getIrregularVerbs(setLoading).then(data => setVerbs(data))
+    setLoading(false)
 
     return () => {}
   }, [])

@@ -8,8 +8,7 @@ export const getIrregularVerbs = async () => {
       throw error
     }
     if (data) return data
-    else return { error }
   } catch (error) {
-    throw error
+    throw error // fix this error 'JWT expired'
   }
 }
