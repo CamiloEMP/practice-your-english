@@ -12,7 +12,7 @@ import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 
 function SentencesId({ verb, setShow }) {
   const { user } = useUser()
-  const { values, handleChange, setValues } = useForm({
+  const { values, handleChange, handleSubmit } = useForm({
     infinitive: '',
     pastSimple: '',
     pastParticiple: '',
@@ -23,9 +23,7 @@ function SentencesId({ verb, setShow }) {
   const wordPastParticiple = verb.past_participle
   const wordPastSimple = verb.past_simple
 
-  function handleSubmit(e) {
-    e.preventDefault()
-
+  function validForm() {
     const isValid = validateNewSentence({
       values,
       wordInfinitive,
@@ -36,8 +34,11 @@ function SentencesId({ verb, setShow }) {
 
     if (isValid) {
       addSentece(values, verb.id, user.id).then(data => (data ? setShow(true) : null))
-      setValues({ infinitive: '', pastSimple: '', pastParticiple: '' })
+
+      return true
     }
+
+    return false
   }
 
   return (
@@ -52,7 +53,7 @@ function SentencesId({ verb, setShow }) {
             </span>
           ))}
       </div>
-      <form className="space-y-8" onSubmit={handleSubmit}>
+      <form className="space-y-8" onSubmit={e => handleSubmit(e, validForm)}>
         {timesVerbs.slice(0, 3).map(item => (
           <TextArea
             key={item.id}

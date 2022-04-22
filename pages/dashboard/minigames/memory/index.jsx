@@ -1,30 +1,40 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useState, useRef } from 'react'
 import { InputCheckbox } from 'components/InputCheckbox'
 import { InputSelect } from 'components/InputSelect'
+import { useForm } from 'hook/useForm'
+import { useOptions } from 'hook/useOptions'
+import { validateMemoryGame } from 'validations/validateMemoryGame'
 
-export default function Memory() {
-  const formRef = useRef()
-
+export default function MinigameMemory() {
+  const { setOptionsMinigame } = useOptions()
   const router = useRouter()
-  const [checked, setChecked] = useState({ random: false, byOne: false })
-  const [valueRange, setValueRange] = useState(8)
-  const [isSelect, setIsSelect] = useState({
+  const initialState = {
+    valueRange: 6,
     timesVerbFirst: '',
     timesVerbSecond: '',
-  })
+    random: false,
+    byOne: false,
+  }
+  const { values, handleChange, handleSubmit } = useForm(initialState)
+  const [checked, setChecked] = useState({ random: false, byOne: false })
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    const formData = new FormData(formRef.current)
-    const preValues = Object.fromEntries(formData)
-    // I don't know why reason Object.fromEntries not get the values of elements select
-    const values = { ...preValues, ...isSelect }
+  const validateForm = () => {
+    const valuesForm = { ...values, ...checked }
+    const isError = validateMemoryGame(valuesForm.timesVerbFirst, valuesForm.timesVerbSecond)
 
-    router.push({ pathname: `${router.pathname}/play`, query: { values: JSON.stringify(values) } })
+    if (isError) {
+      throw new Error('Error')
+    } else {
+      setOptionsMinigame({
+        minigame: 'memory',
+        ...valuesForm,
+      })
+      router.push(`${router.pathname}/play`)
+    }
   }
 
-  function handleChecked(e) {
+  const handleChecked = e => {
     const id = e.target.id
 
     if (id === 'byOne') {
@@ -38,36 +48,33 @@ export default function Memory() {
     <section>
       <h2 className="text-3xl font-bold text-center">Memory Game</h2>
       <form
-        ref={formRef}
         className="min-w-min max-w-3xl gap-20 mx-auto flex flex-col mt-8"
-        onSubmit={handleSubmit}
+        onSubmit={e => handleSubmit(e, validateForm)}
       >
         <div>
           <p className="text-xl">- How many verbs do you want to use?</p>
-          <span className="text-emerald-600 dark:text-emerald-400 text-lg">{valueRange} verbs</span>
+          <span className="text-emerald-600 dark:text-emerald-400 text-lg">
+            {values.valueRange} verbs
+          </span>
           <input
             className="w-full h-2 bg-emerald-400 appearance-none cursor-pointer rounded-sm"
-            id="qualityOfVerbs"
+            id="valueRange"
             max={15}
             min={3}
-            name="qualityOfVerbs"
+            name="valueRange"
             type="range"
-            value={valueRange}
-            onChange={e => setValueRange(e.target.value)}
+            value={values.valueRange}
+            onChange={handleChange}
           />
         </div>
         <div>
           <p className="text-xl mb-4">- Choose two times of verbs for use in the game</p>
           <div className="flex gap-5">
-            <InputSelect
-              identifier="timesVerbFirst"
-              isSelect={isSelect}
-              setIsSelect={setIsSelect}
-            />
+            <InputSelect identifier="timesVerbFirst" isSelect={values} setIsSelect={handleChange} />
             <InputSelect
               identifier="timesVerbSecond"
-              isSelect={isSelect}
-              setIsSelect={setIsSelect}
+              isSelect={values}
+              setIsSelect={handleChange}
             />
           </div>
         </div>
@@ -96,7 +103,7 @@ export default function Memory() {
           className="text-lg border-4 border-emerald-500 transition-colors hover:bg-emerald-500 hover:text-slate-100 uppercase py-2"
           type="submit"
         >
-          ¡ I want play now !
+          ¡ play !
         </button>
       </form>
     </section>

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { ThemeProvider } from 'next-themes'
 import { UserProvider } from '@supabase/supabase-auth-helpers/react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { ContextOptionsProvider } from 'context/OptionsMinigamesContext'
+import { Layout } from 'container/Layout'
 import { Modal } from 'components/modals/Modal'
 import { Header } from 'components/Home/Header'
-import { Layout } from 'container/Layout'
 import { Success } from 'components/Success'
 
 import 'styles/globals.css'
@@ -14,23 +15,25 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <UserProvider supabaseClient={supabaseClient}>
-      <ThemeProvider attribute="class" enableSystem={true}>
-        <Layout>
-          <Header />
-          {Component.PageLayout ? (
-            <Component.PageLayout>
-              <Component setShow={setShow} {...pageProps} />
-            </Component.PageLayout>
-          ) : (
-            <Component {...pageProps} />
+      <ContextOptionsProvider>
+        <ThemeProvider attribute="class" enableSystem={true}>
+          <Layout>
+            <Header />
+            {Component.PageLayout ? (
+              <Component.PageLayout>
+                <Component setShow={setShow} {...pageProps} />
+              </Component.PageLayout>
+            ) : (
+              <Component {...pageProps} />
+            )}
+          </Layout>
+          {show && (
+            <Modal>
+              <Success setShow={setShow} />
+            </Modal>
           )}
-        </Layout>
-        {show && (
-          <Modal>
-            <Success setShow={setShow} />
-          </Modal>
-        )}
-      </ThemeProvider>
+        </ThemeProvider>
+      </ContextOptionsProvider>
     </UserProvider>
   )
 }

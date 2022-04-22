@@ -10,5 +10,14 @@ export const useForm = (initialState = {}) => {
     })
   }
 
-  return { values, handleChange, setValues }
+  const handleSubmit = (e, cb) => {
+    e.preventDefault()
+    const notError = cb()
+
+    if (notError) {
+      setValues(initialState)
+    }
+  }
+
+  return { values, handleChange, handleSubmit }
 }
