@@ -1,15 +1,12 @@
-import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { InputCheckbox } from 'components/InputCheckbox'
 import { InputSelect } from 'components/InputSelect'
 import { useForm } from 'hook/useForm'
 import { useOptions } from 'hook/useOptions'
 import { validateMemoryGame } from 'validations/validateMemoryGame'
 
 export default function MinigameMemory() {
-  const { setOptionsMinigame } = useOptions()
+  const { setOptionsMinigame, options } = useOptions()
   const router = useRouter()
-
   const initialState = {
     quantityVerbs: 6,
     timesVerbFirst: '',
@@ -18,35 +15,25 @@ export default function MinigameMemory() {
     byOne: false,
   }
   const { values, handleChange, handleSubmit } = useForm(initialState)
-  const [checked, setChecked] = useState({ random: false, byOne: false })
 
   const validateForm = () => {
-    const valuesForm = { ...values, ...checked }
-    const isError = validateMemoryGame(valuesForm.timesVerbFirst, valuesForm.timesVerbSecond)
+    const isError = validateMemoryGame(values.timesVerbFirst, values.timesVerbSecond)
 
     if (isError) {
       throw new Error('Error')
     } else {
+      const minigame = options.minigame
+
       setOptionsMinigame({
-        minigame: 'memory',
-        ...valuesForm,
+        minigame: minigame,
+        ...values,
       })
       router.push('/dashboard/minigames/play')
     }
   }
 
-  const handleChecked = e => {
-    const id = e.target.id
-
-    if (id === 'byOne') {
-      setChecked({ random: false, byOne: true })
-    } else {
-      setChecked({ random: true, byOne: false })
-    }
-  }
-
   return (
-    <section>
+    <section className="px-4">
       <h2 className="text-3xl font-bold text-center">Memory Game</h2>
       <form
         className="min-w-min max-w-3xl gap-20 mx-auto flex flex-col mt-8"
@@ -76,27 +63,6 @@ export default function MinigameMemory() {
               identifier="timesVerbSecond"
               isSelect={values}
               setIsSelect={handleChange}
-            />
-          </div>
-        </div>
-        <div>
-          <p className="text-xl mb-4">
-            - Do you want to select the verbs one by one or do you want it randomly
-          </p>
-          <div className="inline-flex items-center mr-4">
-            <InputCheckbox
-              checked={checked}
-              handleChecked={handleChecked}
-              identifier="byOne"
-              text="One by one"
-            />
-          </div>
-          <div className="inline-flex items-center">
-            <InputCheckbox
-              checked={checked}
-              handleChecked={handleChecked}
-              identifier="random"
-              text="Definitely random"
             />
           </div>
         </div>

@@ -119,7 +119,6 @@ export const MemoryGame = ({ verbs, optionsGame }) => {
         hideProgressBar={false}
         limit={3}
         newestOnTop={false}
-        position="bottom-left"
         rtl={false}
         theme="colored"
       />

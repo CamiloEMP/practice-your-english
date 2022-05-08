@@ -9,9 +9,7 @@ export const InputSelect = ({ identifier, isSelect, setIsSelect }) => {
       name={identifier}
       onChange={setIsSelect}
     >
-      <option selected disabled={isSelect.timesVerbFirst || isSelect.timesVerbSecond} value="null">
-        Choose a one
-      </option>
+      <option disabled={isSelect.timesVerbFirst || isSelect.timesVerbSecond} value="" />
       {timesVerbs.map(time => (
         <option
           key={time.id}

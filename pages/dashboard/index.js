@@ -68,9 +68,6 @@ export default function Dashboard() {
           </ul>
         </CardResource>
       </section>
-      {/*
-            <Link href="/dashboard/list/verbs/irregular">
-  */}
       {!!isVisible.minigames ? (
         <Modal>
           <BtnCloseModal handleVisible={() => handleVisible('minigames')} />

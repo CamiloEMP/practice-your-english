@@ -1,7 +1,5 @@
 export const validateMemoryGame = (firstOption, secondOption) => {
-  const defaultValue = 'Choose a one'
-
-  if (firstOption === defaultValue || secondOption === defaultValue) {
+  if (firstOption === '' || secondOption === '') {
     return true
   }
 
