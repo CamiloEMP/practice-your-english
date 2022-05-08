@@ -9,8 +9,9 @@ import { validateMemoryGame } from 'validations/validateMemoryGame'
 export default function MinigameMemory() {
   const { setOptionsMinigame } = useOptions()
   const router = useRouter()
+
   const initialState = {
-    valueRange: 6,
+    quantityVerbs: 6,
     timesVerbFirst: '',
     timesVerbSecond: '',
     random: false,
@@ -30,7 +31,7 @@ export default function MinigameMemory() {
         minigame: 'memory',
         ...valuesForm,
       })
-      router.push(`${router.pathname}/play`)
+      router.push('/dashboard/minigames/play')
     }
   }
 
@@ -54,16 +55,16 @@ export default function MinigameMemory() {
         <div>
           <p className="text-xl">- How many verbs do you want to use?</p>
           <span className="text-emerald-600 dark:text-emerald-400 text-lg">
-            {values.valueRange} verbs
+            {values.quantityVerbs} verbs
           </span>
           <input
             className="w-full h-2 bg-emerald-400 appearance-none cursor-pointer rounded-sm"
-            id="valueRange"
+            id="quantityVerbs"
             max={15}
             min={3}
-            name="valueRange"
+            name="quantityVerbs"
             type="range"
-            value={values.valueRange}
+            value={values.quantityVerbs}
             onChange={handleChange}
           />
         </div>

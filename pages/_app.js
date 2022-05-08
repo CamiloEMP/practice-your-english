@@ -8,6 +8,7 @@ import { Modal } from 'components/modals/Modal'
 import { Header } from 'components/Home/Header'
 import { Success } from 'components/Success'
 
+import 'react-toastify/dist/ReactToastify.css'
 import 'styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
@@ -19,6 +20,7 @@ function MyApp({ Component, pageProps }) {
         <ThemeProvider attribute="class" enableSystem={true}>
           <Layout>
             <Header />
+
             {Component.PageLayout ? (
               <Component.PageLayout>
                 <Component setShow={setShow} {...pageProps} />
