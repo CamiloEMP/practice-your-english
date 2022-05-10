@@ -1,61 +1,79 @@
-import { useEffect, useState, useCallback } from 'react'
+import { GUESS_LENGTH, WORD_LENGTH } from 'constants/wordle-config'
+
+import { Modal } from 'components/modals/Modal'
+import { useEffect, useState } from 'react'
+import { getRandomWord } from 'utils/wordle-utils'
 
 import { WordRow } from './WordRow'
 
-export const WordleGame = ({ verbs }) => {
+export const WordleGame = ({ verbs = [] }) => {
   const [word, setWord] = useState('')
+  const [guess, setGuess] = useState('')
+  const [guessStates, setGuessStates] = useState([])
+  const [isGameOver, setIsGameOver] = useState(false)
+  const [newGame, setNewGame] = useState(false)
 
-  const computeGuess = useCallback((guess, answerString) => {
-    const results = []
-    const answerArray = answerString.split('')
-    const guessArray = guess.split('')
+  let rows = [...guessStates]
 
-    guessArray.forEach((letter, index) => {
-      if (letter === answerArray[index]) {
-        results.push('Match') // Match
-      } else if (answerArray.includes(letter)) {
-        results.push('Partial') // Partial match
-      } else {
-        results.push('Miss') // No match
-      }
-    })
+  if (rows.length < GUESS_LENGTH) {
+    rows.push(guess)
+  }
 
-    return results
-  }, [])
+  const numberOfGuessRemaining = GUESS_LENGTH - rows.length
 
-  const result = computeGuess(word, verbs[0].infinitive)
+  rows = rows.concat(Array(numberOfGuessRemaining).fill(''))
 
-  console.log(result)
+  const handleChange = e => {
+    const newGuess = e.target.value
 
-  const getRandomWord = useCallback(() => {
-    const randomGroupWord = verbs[Math.floor(Math.random() * verbs.length)]
-    const values = Object.values(randomGroupWord)
-    const notSpanish = values.slice(0, 3)
-    const word = notSpanish[Math.floor(Math.random() * notSpanish.length)]
+    if (newGuess.length === WORD_LENGTH) {
+      setGuessStates([...guessStates, newGuess])
+      setGuess('')
 
-    if (word.length <= 5) {
-      setWord(word)
-    } else {
-      getRandomWord()
+      return
     }
-  }, [verbs])
+    setGuess(newGuess)
+  }
 
   useEffect(() => {
-    getRandomWord()
+    if (verbs.length > 0) {
+      const wordForGame = getRandomWord(verbs)
 
-    return () => {
-      setWord('')
+      setWord(wordForGame)
     }
-  }, [getRandomWord])
+  }, [newGame, verbs])
+
+  useEffect(() => {
+    if (guessStates.length === GUESS_LENGTH) {
+      setGuess('')
+      setGuessStates([])
+    }
+  }, [guessStates])
 
   return (
-    <section>
-      <button onClick={() => getRandomWord()}>New game</button>
-      <WordRow letter={word} />
-      <WordRow letter={word} />
-      <WordRow letter={word} />
-      <WordRow letter={word} />
-      <WordRow letter={word} />
+    <section className="max-w-lg mx-auto grid grid-rows-6 gap-2 md:gap-4 px-2">
+      <input
+        className="w-1/2 h-9"
+        disabled={isGameOver}
+        type="text"
+        value={guess}
+        onChange={handleChange}
+      />
+      {rows.length > 0
+        ? rows.map((letterRow, index) => <WordRow key={index} answer={word} word={letterRow} />)
+        : null}
+      {isGameOver && (
+        <Modal>
+          <button
+            onClick={() => {
+              setNewGame(true)
+              setIsGameOver(false)
+            }}
+          >
+            New game
+          </button>
+        </Modal>
+      )}
     </section>
   )
 }

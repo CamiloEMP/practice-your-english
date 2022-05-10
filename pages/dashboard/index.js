@@ -7,7 +7,6 @@ import { Modal } from 'components/modals/Modal'
 import { Minigame } from 'components/modals/Minigame'
 import { Resources } from 'components/modals/Resources'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import { AiFillCloseCircle } from 'react-icons/ai'
 import { BtnCloseModal } from 'components/modals/BtnCloseModal'
 
 export default function Dashboard() {

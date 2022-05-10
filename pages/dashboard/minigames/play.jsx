@@ -6,7 +6,7 @@ import { MemoryGame } from 'components/minigames/MemoryGame'
 import { FindVerbGame } from 'components/minigames/FindVerbGame'
 import { WordleGame } from 'components/minigames/WordleGame'
 
-export default function PlayMinigame({ verbs }) {
+export default function PlayMinigame({ verbs = [] }) {
   const router = useRouter()
   const { options, isEmpty } = useOptions()
 
