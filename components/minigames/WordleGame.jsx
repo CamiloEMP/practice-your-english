@@ -1,26 +1,61 @@
 import { useEffect, useState, useCallback } from 'react'
 
-const KeyBoard = () => {}
-
-const Board = () => {}
+import { WordRow } from './WordRow'
 
 export const WordleGame = ({ verbs }) => {
-  const [word, setWord] = useState({})
+  const [word, setWord] = useState('')
+
+  const computeGuess = useCallback((guess, answerString) => {
+    const results = []
+    const answerArray = answerString.split('')
+    const guessArray = guess.split('')
+
+    guessArray.forEach((letter, index) => {
+      if (letter === answerArray[index]) {
+        results.push('Match') // Match
+      } else if (answerArray.includes(letter)) {
+        results.push('Partial') // Partial match
+      } else {
+        results.push('Miss') // No match
+      }
+    })
+
+    return results
+  }, [])
+
+  const result = computeGuess(word, verbs[0].infinitive)
+
+  console.log(result)
 
   const getRandomWord = useCallback(() => {
-    const randomIndex = Math.floor(Math.random() * verbs.length)
+    const randomGroupWord = verbs[Math.floor(Math.random() * verbs.length)]
+    const values = Object.values(randomGroupWord)
+    const notSpanish = values.slice(0, 3)
+    const word = notSpanish[Math.floor(Math.random() * notSpanish.length)]
 
-    setWord(verbs[randomIndex])
+    if (word.length <= 5) {
+      setWord(word)
+    } else {
+      getRandomWord()
+    }
   }, [verbs])
 
   useEffect(() => {
     getRandomWord()
-  }, [verbs, getRandomWord])
+
+    return () => {
+      setWord('')
+    }
+  }, [getRandomWord])
 
   return (
     <section>
       <button onClick={() => getRandomWord()}>New game</button>
-      <p>{word.infinitive}</p>
+      <WordRow letter={word} />
+      <WordRow letter={word} />
+      <WordRow letter={word} />
+      <WordRow letter={word} />
+      <WordRow letter={word} />
     </section>
   )
 }

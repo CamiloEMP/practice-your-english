@@ -20,9 +20,6 @@ export default function PlayMinigame({ verbs }) {
     <section>
       {!isEmpty ? (
         <>
-          <h2 className="text-3xl md:text-4xl font-bold text-center capitalize mb-12">
-            {options.minigame} game
-          </h2>
           {options.minigame === 'memory game' ? (
             <MemoryGame optionsGame={options} verbs={verbs} />
           ) : options.minigame === 'find verb' ? (
